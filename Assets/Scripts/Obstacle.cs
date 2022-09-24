@@ -10,6 +10,7 @@ public class Obstacle : MonoBehaviour
     public float speed;
     //protected TextMeshProUGUI TMP;
     protected GameObject Score;  // text
+    // move score Max and Last to Player script for fix bug
     protected GameObject ScoreMax;
     protected GameObject ScoreLast;
     protected static int i_ScoreMax;
