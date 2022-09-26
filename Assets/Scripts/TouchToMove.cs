@@ -19,7 +19,9 @@ public class TouchToMove : MonoBehaviour
     /// </summary>
     Vector3 moveDirection;
     float gravity = -10f;
-    
+    public float jumpForce;
+    public float freinForce;
+
     void Start()
     {
        
@@ -56,8 +58,18 @@ public class TouchToMove : MonoBehaviour
         }
         else
         {
-            moveDirection = Vector3.zero;
+            moveDirection = Vector3.Lerp(moveDirection, Vector3.zero, Time.deltaTime * freinForce);
         }
+        // Gestion du saut
+        if(Input.GetMouseButtonUp(0))
+        {
+            // Faire sauter le personnage
+            moveDirection.y += jumpForce;
+
+            // Applique une impulsion vers l'avant pour propulser le personnage plus loin vers l'avant
+            moveDirection += transform.forward;
+        }
+
         // calculer la gravité 
         moveDirection.y = moveDirection.y + (gravity * Time.deltaTime);
         // On applique le mouvement au personnage
