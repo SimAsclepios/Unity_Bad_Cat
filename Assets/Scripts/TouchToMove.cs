@@ -21,10 +21,12 @@ public class TouchToMove : MonoBehaviour
     float gravity = -10f;
     public float jumpForce;
     public float freinForce;
+    private bool b_IsRunning = false;
+    public Animator animator;
 
     void Start()
     {
-       
+
     }
 
 
@@ -44,7 +46,14 @@ public class TouchToMove : MonoBehaviour
             if (touch.phase == TouchPhase.Moved)
             {
                 //direction = touch.deltaPosition;
+
+                // Active Animation Run
+                b_IsRunning = true;
             }
+            else
+                b_IsRunning = false;
+            // Après avoir changer notre bool "b_IsRunning", affecter sa valeur au bool de l'animation "Running" pour qu'elle change également
+            animator.SetBool("Running", b_IsRunning);
             if (characterController.isGrounded)
             {
                 // calcul de la direction de déplacement
@@ -60,8 +69,8 @@ public class TouchToMove : MonoBehaviour
         {
             moveDirection = Vector3.Lerp(moveDirection, Vector3.zero, Time.deltaTime * freinForce);
         }
-        // Gestion du saut
-        if(Input.GetMouseButtonUp(0))
+        // Gestion du saut permis uniquement lorsque le personnage est au sol
+        if(Input.GetMouseButtonUp(0) && characterController.isGrounded)
         {
             // Faire sauter le personnage
             moveDirection.y += jumpForce;
