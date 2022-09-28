@@ -23,6 +23,7 @@ public class TouchToMove : MonoBehaviour
     public float freinForce;
     private bool b_IsRunning = false;
     public Animator animator;
+    public GameObject jumpEffect;
 
     void Start()
     {
@@ -62,7 +63,8 @@ public class TouchToMove : MonoBehaviour
                 Quaternion targetRotation = moveDirection != Vector3.zero ? Quaternion.LookRotation(moveDirection) : transform.rotation;
                 // On applique la rotation
                 transform.rotation = targetRotation;
-                moveDirection *= speed;     // moveDirection * Speed
+                // normalized permet d'avoir toujours la même taille de vector3 quelque soit la distance du slide avec le doigt = petit ou grand slide donne le même vector3 pour avoir la même vitesse.
+                moveDirection = moveDirection.normalized * speed/100;     
             }
         }
         else
@@ -72,6 +74,7 @@ public class TouchToMove : MonoBehaviour
         // Gestion du saut permis uniquement lorsque le personnage est au sol
         if(Input.GetMouseButtonUp(0) && characterController.isGrounded)
         {
+            Instantiate(jumpEffect, transform.position, Quaternion.identity);   // Quaternion.identity = Conservation de la rotation
             // Faire sauter le personnage
             moveDirection.y += jumpForce;
 
