@@ -6,7 +6,9 @@ public class GameManager : MonoBehaviour
 {
     public int level = 1;
     public GameObject[] Rooms;
+    public GameObject[] Tutos;
 
+    private bool gameStarted = false;
 
     void Awake()
     {
@@ -23,6 +25,10 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetMouseButtonDown(0) && !gameStarted)
+        {
+            gameStarted = true;
+            Tutos[0].SetActive(false);
+        }
     }
 }
