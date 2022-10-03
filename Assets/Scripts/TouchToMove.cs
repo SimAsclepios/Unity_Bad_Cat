@@ -24,6 +24,7 @@ public class TouchToMove : MonoBehaviour
     private bool b_IsRunning = false;
     public Animator animator;
     public GameObject jumpEffect;
+    public GameManager gm;
 
     void Start()
     {
@@ -33,58 +34,63 @@ public class TouchToMove : MonoBehaviour
 
     void Update()
     {
-        // savoir si le joueur a touché l'écran ou non
-        if (Input.touchCount > 0)
-        {
-            // calcul du mouvement du personnage
-            touch = Input.GetTouch(0);
-            // au moment ou le joueur touche l'écran
-            if (touch.phase == TouchPhase.Began)
-            {
-                initPos = touch.position;
-            }
-            // Lorsque le joueur déplace son doigt sur l'écran
-            if (touch.phase == TouchPhase.Moved)
-            {
-                //direction = touch.deltaPosition;
 
-                // Active Animation Run
-                b_IsRunning = true;
+        if (!gm.gameEnded && gm.gameStarted)
+        {
+
+            // savoir si le joueur a touché l'écran ou non
+            if (Input.touchCount > 0)
+            {
+                // calcul du mouvement du personnage
+                touch = Input.GetTouch(0);
+                // au moment ou le joueur touche l'écran
+                if (touch.phase == TouchPhase.Began)
+                {
+                    initPos = touch.position;
+                }
+                // Lorsque le joueur déplace son doigt sur l'écran
+                if (touch.phase == TouchPhase.Moved)
+                {
+                    //direction = touch.deltaPosition;
+
+                    // Active Animation Run
+                    b_IsRunning = true;
+                }
+                else
+                    b_IsRunning = false;
+                // Après avoir changer notre bool "b_IsRunning", affecter sa valeur au bool de l'animation "Running" pour qu'elle change également
+                animator.SetBool("Running", b_IsRunning);
+                if (characterController.isGrounded)
+                {
+                    // calcul de la direction de déplacement
+                    moveDirection = new Vector3(touch.position.x - initPos.x, 0, touch.position.y - initPos.y);
+                    // Calcul de la rotation
+                    Quaternion targetRotation = moveDirection != Vector3.zero ? Quaternion.LookRotation(moveDirection) : transform.rotation;
+                    // On applique la rotation
+                    transform.rotation = targetRotation;
+                    // normalized permet d'avoir toujours la même taille de vector3 quelque soit la distance du slide avec le doigt = petit ou grand slide donne le même vector3 pour avoir la même vitesse.
+                    moveDirection = moveDirection.normalized * speed/100;     
+                }
             }
             else
-                b_IsRunning = false;
-            // Après avoir changer notre bool "b_IsRunning", affecter sa valeur au bool de l'animation "Running" pour qu'elle change également
-            animator.SetBool("Running", b_IsRunning);
-            if (characterController.isGrounded)
             {
-                // calcul de la direction de déplacement
-                moveDirection = new Vector3(touch.position.x - initPos.x, 0, touch.position.y - initPos.y);
-                // Calcul de la rotation
-                Quaternion targetRotation = moveDirection != Vector3.zero ? Quaternion.LookRotation(moveDirection) : transform.rotation;
-                // On applique la rotation
-                transform.rotation = targetRotation;
-                // normalized permet d'avoir toujours la même taille de vector3 quelque soit la distance du slide avec le doigt = petit ou grand slide donne le même vector3 pour avoir la même vitesse.
-                moveDirection = moveDirection.normalized * speed/100;     
+                moveDirection = Vector3.Lerp(moveDirection, Vector3.zero, Time.deltaTime * freinForce);
             }
-        }
-        else
-        {
-            moveDirection = Vector3.Lerp(moveDirection, Vector3.zero, Time.deltaTime * freinForce);
-        }
-        // Gestion du saut permis uniquement lorsque le personnage est au sol
-        if(Input.GetMouseButtonUp(0) && characterController.isGrounded)
-        {
-            Instantiate(jumpEffect, transform.position, Quaternion.identity);   // Quaternion.identity = Conservation de la rotation
-            // Faire sauter le personnage
-            moveDirection.y += jumpForce;
+            // Gestion du saut permis uniquement lorsque le personnage est au sol
+            if(Input.GetMouseButtonUp(0) && characterController.isGrounded)
+            {
+                Instantiate(jumpEffect, transform.position, Quaternion.identity);   // Quaternion.identity = Conservation de la rotation
+                // Faire sauter le personnage
+                moveDirection.y += jumpForce;
 
-            // Applique une impulsion vers l'avant pour propulser le personnage plus loin vers l'avant
-            moveDirection += transform.forward;
-        }
+                // Applique une impulsion vers l'avant pour propulser le personnage plus loin vers l'avant
+                moveDirection += transform.forward;
+            }
 
-        // calculer la gravité 
-        moveDirection.y = moveDirection.y + (gravity * Time.deltaTime);
-        // On applique le mouvement au personnage
-        characterController.Move(moveDirection * Time.deltaTime);
+            // calculer la gravité 
+            moveDirection.y = moveDirection.y + (gravity * Time.deltaTime);
+            // On applique le mouvement au personnage
+            characterController.Move(moveDirection * Time.deltaTime);
+        }
     }
 }

@@ -21,7 +21,8 @@ public class Player : MonoBehaviour
     public float sensibility;
     public float posXmin;
     public float posXmax;
-    // Update is called once per frame
+
+    
     void Update()
     {
         //  Si le joueur a eu moins 1 doigt sur l'écran
