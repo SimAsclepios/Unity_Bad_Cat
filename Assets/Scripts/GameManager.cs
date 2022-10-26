@@ -69,4 +69,19 @@ public class GameManager : MonoBehaviour
         // Rechargement de la scene nommé 'SampleScene' dans la fenètre Project -> Assets -> Scenes
         SceneManager.LoadScene("SampleScene");      //Application.LoadLevel(Application.loadedLevelName);
     }
+
+    public void WatchExtraTimeVideo()
+    {
+        //TODO : Afficher Pub Vidéo
+        //TODO : Détecter si pub est vu
+        GetExtraTime();
+    }
+    public void GetExtraTime()
+    {
+        timerParty = 15;
+        textTimer.text = timerParty.ToString();     // Sinon affiche 0 puis la valeur donner juste en haut - 1 après 1 seconde
+        gameEnded = false;
+        ScreenEnd.SetActive(false);
+        InvokeRepeating("SetTimer", 1, 1);
+    }
 }
