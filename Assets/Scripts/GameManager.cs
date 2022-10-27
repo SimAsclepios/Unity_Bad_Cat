@@ -35,13 +35,16 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        // Jeu démarré
-        if (Input.GetMouseButtonDown(0) && !gameStarted)
-        {
+        
+    }
+    public void StartGame()
+    {
+        //if (Input.GetMouseButtonDown(0) && !gameStarted)
+        //{
             gameStarted = true;
             Tutos[0].SetActive(false);
             InvokeRepeating("SetTimer", 1, 1);
-        }
+        //}
     }
     /// <summary>
     /// Chronomètre mis à jour
