@@ -18,4 +18,9 @@ public class CatSkin : MonoBehaviour
         CatSkinId = PlayerPrefs.GetInt("selectedSkin", 0);
         CatMaterial.mainTexture = Skins[CatSkinId];
     }
+
+    public void SetSkin(int SkinId)
+    {
+        CatMaterial.mainTexture = Skins[SkinId];        // OU CatMaterial.mainTexture = Skins[CatSkinId];
+    }
 }
