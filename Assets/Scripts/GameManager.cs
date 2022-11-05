@@ -11,9 +11,12 @@ public class GameManager : MonoBehaviour
     public GameObject[] Tutos;
     public GameObject ScreenEnd;
     public TextMeshProUGUI textScore;
+    public TextMeshProUGUI textScoreEnd;
+    public TextMeshProUGUI textScoreLast;
+    public TextMeshProUGUI textScoreMax;
     public TextMeshProUGUI textTimer;
 
-    public int timerParty = 30;     // TODO : Pour l'instant en public pour tester plus rapidement inGame la fin du jeu
+    public int timerParty = 20;     // TODO : Pour l'instant en public pour tester plus rapidement inGame la fin du jeu
 
     public bool gameStarted = false;
     public bool gameEnded = false;
@@ -31,6 +34,8 @@ public class GameManager : MonoBehaviour
                 // TODO : Faire pareil avec tableau des murs pour savoir quel mur et cadre porte faire apparaitre en fonction du nombre de pieces.
             }
         }
+        textScoreMax.text = PlayerPrefs.GetInt("scoreMax", 0).ToString();
+        textScoreLast.text = PlayerPrefs.GetInt("scoreLast", 0).ToString();
     }
 
     void Update()
@@ -41,9 +46,10 @@ public class GameManager : MonoBehaviour
     {
         //if (Input.GetMouseButtonDown(0) && !gameStarted)
         //{
-            gameStarted = true;
-            Tutos[0].SetActive(false);
-            InvokeRepeating("SetTimer", 1, 1);
+        textTimer.text = timerParty.ToString();
+        gameStarted = true;
+        Tutos[0].SetActive(false);
+        InvokeRepeating("SetTimer", 1, 1);
         //}
     }
     /// <summary>
@@ -53,12 +59,22 @@ public class GameManager : MonoBehaviour
     {
         timerParty--;
         textTimer.text = timerParty.ToString();
+        // Si c'est la fin de la partie
         if (timerParty <= 0)
         {
+            int scoreEnd = int.Parse(textScore.text);
+            PlayerPrefs.SetInt("scoreLast", scoreEnd);
+            // Donne par défaut la valeur 0 si le score Maximum enregistré n'est pas trouvé (1ere partie)
+            int scoreMax = PlayerPrefs.GetInt("scoreMax", 0);
+            if (scoreEnd > scoreMax)
+                PlayerPrefs.SetInt("scoreMax", scoreEnd);
+
+
             gameEnded = true;
             // Annule toutes les méthodes invoke de notre classe
             CancelInvoke();
             ScreenEnd.SetActive(true);
+            textScoreEnd.text = textScore.text;
         }
     }
     /// <summary>
@@ -66,10 +82,10 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void RestartGame()
     {
-        // Parfois Bug Unity lors d'un (Re)LoadLevel : tout ne se réinitialise pas bien, une des façon de réinitialiser les variables est de les mettre dans le Awake OU avant le (Re)LoadLevel
         //timerParty = 30;
 
         // Rechargement de la scene nommé 'SampleScene' dans la fenètre Project -> Assets -> Scenes
+        // Parfois Bug Unity lors d'un (Re)LoadLevel : tout ne se réinitialise pas bien, une des façon de réinitialiser les variables est de les mettre dans le Awake OU avant le (Re)LoadLevel
         SceneManager.LoadScene("SampleScene");      //Application.LoadLevel(Application.loadedLevelName);
     }
 
