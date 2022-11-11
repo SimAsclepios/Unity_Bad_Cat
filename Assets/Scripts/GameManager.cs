@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour
     {
         //if (Input.GetMouseButtonDown(0) && !gameStarted)
         //{
-        textTimer.text = timerParty.ToString();
+        textTimer.text = GetTimer().ToString();
         gameStarted = true;
         Tutos[0].SetActive(false);
         InvokeRepeating("SetTimer", 1, 1);
@@ -102,5 +102,18 @@ public class GameManager : MonoBehaviour
         gameEnded = false;
         ScreenEnd.SetActive(false);
         InvokeRepeating("SetTimer", 1, 1);
+    }
+    public int GetTimer()
+    {
+        int TimerLVL = PlayerPrefs.GetInt("TimerLVL", 0);
+        int BonusTime;
+        if (TimerLVL > 10)
+        {
+            int TimeTwoPoint = TimerLVL - 10;
+            BonusTime = 10 + TimeTwoPoint * 2;
+        }
+        else
+            BonusTime = TimerLVL;
+        return (timerParty + BonusTime);
     }
 }
