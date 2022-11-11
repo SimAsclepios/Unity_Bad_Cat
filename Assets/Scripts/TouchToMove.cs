@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TouchToMove : MonoBehaviour
 {
-    public float speed;
+    protected float speed;
     /// <summary>
     /// plein de caractéristiques, pour savoir par exemple quel % de pente le joueur a le droit de monter.
     /// </summary>
@@ -26,11 +26,10 @@ public class TouchToMove : MonoBehaviour
     public GameObject jumpEffect;
     public GameManager gm;
 
-    void Start()
+    private void Awake()
     {
-
+        speed = 1 * (1 + PlayerPrefs.GetInt("SpeedLVL", 0) / 20);   // Augmentation de 5% de vitesse par niveau
     }
-
 
     void Update()
     {
