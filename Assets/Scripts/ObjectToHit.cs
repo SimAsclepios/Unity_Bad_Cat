@@ -9,5 +9,10 @@ public class ObjectToHit : MonoBehaviour
     ///// </summary>
     //public int points = 1;
 
-    // Quand masse > 10 ne pas désactiver kinetic
+    public int coins;
+
+    private void Awake()
+    {
+        coins = PlayerPrefs.GetInt("coins", 1);
+    } 
 }
