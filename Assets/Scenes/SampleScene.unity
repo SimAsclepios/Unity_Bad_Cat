@@ -7961,6 +7961,8 @@ GameObject:
   m_Component:
   - component: {fileID: 492556672}
   - component: {fileID: 492556671}
+  - component: {fileID: 492556674}
+  - component: {fileID: 492556673}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -8013,6 +8015,31 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &492556673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 492556670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb40dc32fbf17ba41be83433454bcbb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skin2Btn: {fileID: 1228998216}
+--- !u!114 &492556674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 492556670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0d46e179e8904c4481fade17d1888d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &498091769
 GameObject:
   m_ObjectHideFlags: 0
@@ -14122,7 +14149,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &841006658
 RectTransform:
   m_ObjectHideFlags: 0
@@ -20200,7 +20227,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1228998217}
   m_OnClick:
     m_PersistentCalls:
@@ -27085,7 +27112,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1518379335
 RectTransform:
   m_ObjectHideFlags: 0
@@ -32703,7 +32730,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nbCoinsText: {fileID: 1864585189}
-  nbCoins: 0
   CoinsLVLText: {fileID: 1814289058}
   TimerLVLText: {fileID: 410243541}
   SpeedLVLText: {fileID: 991923317}
