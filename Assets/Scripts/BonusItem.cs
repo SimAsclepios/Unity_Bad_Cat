@@ -14,8 +14,15 @@ public class BonusItem : MonoBehaviour
     {
         daysPlayed = PlayerPrefs.GetInt("DaysPlayed");
 
-        if (daysPlayed >= 3)
+        PlayerPrefs.SetInt("Success1", 1);
+        if (PlayerPrefs.GetInt("Success1", 0) == 1)
+            PlayerPrefs.SetInt("Skin1_Unlocked", 1);
+
+
+
+        if (daysPlayed >= 7)
         {
+            PlayerPrefs.SetInt("Success2", 1);
             PlayerPrefs.SetInt("Skin2_Unlocked", 1);        // Entier de valeur 0 ou 1 pour savoir si le Skin 2 est débloqué
             skin2Btn.interactable = true;       // Permet de pouvoir cliquer sur le bouton du skin 2 pour pouvoir le selectionner
         }
